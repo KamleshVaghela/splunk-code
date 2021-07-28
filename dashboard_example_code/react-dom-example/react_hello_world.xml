@@ -1,0 +1,10 @@
+<dashboard script="a.js">
+<label>React JS DOM</label>
+<row>
+  <panel>
+    <html>
+      <div id="root"></div>
+    </html>
+  </panel>
+</row>
+</dashboard>
