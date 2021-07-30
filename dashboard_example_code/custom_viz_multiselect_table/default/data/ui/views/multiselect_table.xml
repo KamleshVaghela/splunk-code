@@ -1,0 +1,58 @@
+<dashboard script="multiselect_table.js" stylesheet="multiselect_table.css">
+  <label>Multi-Select Table Rows Example</label>
+  <row>
+    <panel>
+    <!-- This Panel is for instruction purpose only-->
+      <html>
+    <h1>This is an example for multi select table rows.</h1>
+    <h2>Steps:</h2>
+    <ui>
+    <li>Select rows from Panel A by clicking on checkboxes.</li>
+    <li>Click on "Submit" button</li>
+    <li>You will get selected values in Panel B.</li>
+    </ui>
+    <br />
+    <h3>This is how you can achieve your requirements. See below files for implementation code.</h3>
+    <code>multiselect_table.js</code><br/>
+    <code>multiselect_table.css</code><br/>
+    <code>multiselect_table.xml</code><br/>
+    </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table id="myTable">
+        <title>Panel A</title>
+        <search>
+          <query>index=_internal | stats count by sourcetype | eval "Select Sourcetype"=sourcetype | table "Select Sourcetype" sourcetype count</query>
+          <earliest>-15m</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">row</option>
+        <drilldown>
+          <condition field="*"></condition>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <html>
+       <div>
+         <input type="button" id="mybutton" value="Submit"/>
+       </div>
+     </html>
+    </panel>
+    <panel>
+      <table>
+        <title>Panel B</title>
+        <search id="mysearch">
+          <query>| makeresults | eval SelectedRowValue="$mytoken$" | makemv delim="," SelectedRowValue | stats count by SelectedRowValue | table SelectedRowValue</query>
+          <earliest>-15m</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</dashboard>

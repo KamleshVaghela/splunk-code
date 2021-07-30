@@ -1,0 +1,38 @@
+<dashboard script="multiselect_color_submit_ok.js" stylesheet="multiselect_color.css">
+  <label>ERROR MONITORING</label>
+  <search id="mysearch">
+    <query> |inputlookup sample_data | where Number IN ($mytoken$) | eval Ack=now() | append [|inputlookup sample_data | where not Number IN ($mytoken$) ]  | sort Number | outputlookup sample_data</query>
+    <earliest>$earliest$</earliest>
+    <latest>$latest$</latest>
+  </search>
+  <row>
+    <panel>
+      <html>
+       <div>
+         <input type="button" id="mybutton" value="Ack Selected Rows"/>
+       </div>
+     </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Omnipay RAM Error Log</title>
+      <table id="myTable">
+        <search id="mainSearch">
+          <query>|inputlookup sample_data | eval "Select Number"=Number."|".Ack | table "Select Number" Number SomeFields Ack | eval Ack=strftime(Ack,"%c") | sort Number</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+          <refresh>1m</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">none</option>
+        <option name="wrap">true</option>
+        <drilldown>
+          <condition field="*"></condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+ </dashboard>

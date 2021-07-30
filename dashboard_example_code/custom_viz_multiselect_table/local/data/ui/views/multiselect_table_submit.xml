@@ -1,0 +1,43 @@
+<form script="multiselect_table_submit.js" stylesheet="multiselect_table.css">
+  <label>Multi-Select Table Rows Example</label>
+  <search id="mysearch">
+    <query> |inputlookup sample_data | where Number IN ($mytoken$) | eval Ack=now() | append [|inputlookup sample_data | where not Number IN ($mytoken$) ]  | sort Number | outputlookup sample_data</query>
+    <earliest>-15m</earliest>
+    <latest>now</latest>
+  </search>
+  <search id="myrevertsearch">
+    <query> | inputlookup sample_data  where Number = "$UnAckID$" | eval Ack="" | append [| inputlookup sample_data  where Number != "$UnAckID$"] | sort Number | outputlookup sample_data</query>
+  </search>
+  <fieldset submitButton="false">
+    <input type="text" token="UnAckID">
+      <label>Enter ID to UnAck</label>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <html>
+       <div>
+         <input type="button" id="mybutton" value="Ack Selected Rows"/>
+       <!--</div>-->
+       <!--<div>-->
+         <input type="button" id="myrevertbutton" value="Un Ack Entered Id"/>
+       </div>
+     </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table id="myTable">
+        <title>Panel A</title>
+        <search id="mainSearch">
+          <query>|inputlookup sample_data | eval "Select Number"=Number."|".Ack | table "Select Number" Number SomeFields Ack | eval Ack=strftime(Ack,"%c") | sort Number</query>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">row</option>
+        <drilldown>
+          <condition field="*"></condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+</form>

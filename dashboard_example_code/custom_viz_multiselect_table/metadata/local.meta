@@ -1,0 +1,26 @@
+[app/install/install_source_checksum]
+version = 8.0.5
+modtime = 1603453358.841462000
+
+[views/multiselect_table_rows_example_clone]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 7.2.7
+modtime = 1592305439.408429000
+
+[views/multiselect_table_submit_ok]
+version = 7.2.7
+modtime = 1592918173.911347000
+
+[views/multiselect_table_submit]
+version = 7.2.7
+modtime = 1592928497.623287000
+
+[views/multiselect_table]
+version = 7.2.7
+modtime = 1594793234.593408000
+
+[app/install/state]
+version = 8.0.5
+modtime = 1603453367.376434000

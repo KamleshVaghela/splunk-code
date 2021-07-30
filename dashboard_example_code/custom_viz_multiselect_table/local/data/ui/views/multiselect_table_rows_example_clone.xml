@@ -1,0 +1,32 @@
+<dashboard script="multiselect_table_submit_ok.js" stylesheet="multiselect_table_submit_ok.css">
+  <label>Multi-Select Table Rows Example Clone</label>
+  <search id="mysearch">
+    <query> |inputlookup sample_data | where Number IN ($mytoken$) | eval Ack=now(), User="$env:user$" | append [|inputlookup sample_data | where not Number IN ($mytoken$) ]  | sort Number | outputlookup sample_data</query>
+    <earliest>-15m</earliest>
+    <latest>now</latest>
+  </search>
+  <row>
+    <panel>
+      <html>
+       <div>
+         <input type="button" id="mybutton" value="Ack Selected Rows"/>
+       </div>
+     </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table id="myTable">
+        <title>Panel A</title>
+        <search id="mainSearch">
+          <query>|inputlookup sample_data | eval "Select Number"=Number."|".Ack | table "Select Number" Number SomeFields Ack User | eval Ack=strftime(Ack,"%c") | sort Number</query>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">row</option>
+        <drilldown>
+          <condition field="*"></condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+</dashboard>
